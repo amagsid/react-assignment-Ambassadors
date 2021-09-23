@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { createUseStyles } from "react-jss";
 import { useWebcamCapture } from "./useWebcamCapture";
-// import logo from './logo.svg'
-import logo from "./slap.png";
-
 import { Link, Switch, Route, Redirect } from "react-router-dom";
+import slap from "../src/Assets/slap.png";
+import star from "../src/Assets/star.png";
+import heart from "../src/Assets/heart.png";
+
+const logos = [slap, star, heart];
 
 const useStyles = createUseStyles((theme) => ({
   "@global body": {
@@ -64,11 +66,13 @@ const useStyles = createUseStyles((theme) => ({
   },
 }));
 
-const stickers = [logo].map((url) => {
+const stickers = logos.map((url) => {
   const img = document.createElement("img");
   img.src = url;
   return { img, url };
 });
+
+console.log(stickers);
 
 function App(props) {
   // css classes from JSS hook
@@ -119,9 +123,16 @@ function App(props) {
             </section>
             <section className={classes.Stickers}>
               Step 2: select your sticker...
-              <button onClick={() => setSticker(stickers[0])}>
+              {stickers.map((sticker) => {
+                return (
+                  <button onClick={() => setSticker(sticker)}>
+                    <img src={sticker.url} />
+                  </button>
+                );
+              })}
+              {/* <button onClick={() => setSticker(stickers[0])}>
                 <img src={stickers[0].url} />
-              </button>
+              </button> */}
             </section>
             <section className={classes.Main}>
               Step three: Slap your self!
