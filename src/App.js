@@ -28,38 +28,6 @@ const useStyles = createUseStyles((theme) => ({
       fontSize: "4rem",
     },
   },
-  Main: {
-    background: theme.palette.secondary,
-
-    "& canvas": {
-      width: "100%",
-      height: "auto",
-    },
-    "& video": {
-      display: "none",
-    },
-  },
-  Stickers: {
-    "& img": {
-      height: "4rem",
-    },
-  },
-  Gallery: {
-    "& img": {
-      height: "16rem",
-    },
-  },
-  Picture: {
-    background: "black",
-    padding: 4,
-    position: "relative",
-    display: "inline-block",
-    "& h3": {
-      padding: 8,
-      textAlign: "center",
-      width: "100%",
-    },
-  },
 }));
 
 function App(props) {

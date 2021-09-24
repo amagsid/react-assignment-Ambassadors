@@ -2,36 +2,14 @@ import React from "react";
 import { createUseStyles } from "react-jss";
 import { useState } from "react";
 import { useWebcamCapture } from "../useWebcamCapture";
+import paintHand from "../../src/Assets/paint-hand.png";
+import realisticHand from "../../src/Assets/realistic-hand.png";
 import slap from "../../src/Assets/slap.png";
-import star from "../../src/Assets/star.png";
-import heart from "../../src/Assets/heart.png";
+import comic from "../../src/Assets/comic.png";
 
-const logos = [slap, star, heart];
+const logos = [slap, realisticHand, paintHand, comic];
 
 const useStyles = createUseStyles((theme) => ({
-  "@global body": {
-    background: theme.palette.background,
-    color: theme.palette.text,
-    fontFamily: "sans-serif",
-  },
-
-  App: {
-    padding: "20px",
-    background: theme.palette.primary,
-    maxWidth: "800px",
-    minHeight: "600px",
-    margin: "auto",
-    "& a": {
-      color: theme.palette.text,
-    },
-  },
-  Header: {
-    "&  h1": {
-      fontFamily: "sans-serif",
-      cursor: "pointer",
-      fontSize: "4rem",
-    },
-  },
   Main: {
     background: theme.palette.secondary,
 
@@ -66,14 +44,16 @@ const useStyles = createUseStyles((theme) => ({
   },
 }));
 
-const stickers = logos.map((url) => {
+const stickers = logos.map((url, i) => {
   const img = document.createElement("img");
   img.src = url;
-  return { img, url };
+  const id = 1 + i++;
+  return { img, url, id };
 });
 
 function HomePage(props) {
-  // css classes from JSS hook
+  /*css classes from JSS hook  */
+
   const classes = useStyles(props);
   // currently active sticker
   const [sticker, setSticker] = useState();
@@ -87,6 +67,9 @@ function HomePage(props) {
     handleCapture, // callback function to trigger taking the picture
     picture, // latest captured picture data object
   ] = useWebcamCapture(sticker?.img, title);
+
+  console.log(picture);
+
   return (
     <main>
       <section className={classes.Gallery}>
@@ -101,14 +84,11 @@ function HomePage(props) {
         Step 2: select your sticker...
         {stickers.map((sticker) => {
           return (
-            <button onClick={() => setSticker(sticker)}>
-              <img src={sticker.url} />
+            <button key={sticker.id} onClick={() => setSticker(sticker)}>
+              <img alt={`sticker-${sticker}`} src={sticker.url} />
             </button>
           );
         })}
-        {/* <button onClick={() => setSticker(stickers[0])}>
-      <img src={stickers[0].url} />
-    </button> */}
       </section>
       <section className={classes.Main}>
         Step three: Slap your self!
@@ -124,7 +104,7 @@ function HomePage(props) {
         Step 4: Cherish this moment forever
         {picture && (
           <div className={classes.Picture}>
-            <img src={picture.dataUri} />
+            <img alt={"capture"} src={picture.dataUri} />
             <h3>{picture.title}</h3>
           </div>
         )}

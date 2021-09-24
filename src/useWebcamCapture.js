@@ -7,11 +7,11 @@ export const useWebcamCapture = (stickerImg, title) => {
 
   const onVideoRef = useCallback((node) => {
     setVideoRef(node);
-  });
+  }, []);
 
   const onCanvasRef = useCallback((node) => {
     setCanvasRef(node);
-  });
+  }, []);
 
   const [initialized, setInitialized] = useState(false);
 
