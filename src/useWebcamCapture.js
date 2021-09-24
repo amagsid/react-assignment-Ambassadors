@@ -101,13 +101,12 @@ export const useWebcamCapture = (stickerImg, title) => {
     (ev) => {
       if (canvasRef) {
         const data = canvasRef.toDataURL("image/png");
+
         setPicture({ dataUri: data, title });
       }
     },
     [canvasRef, title]
   );
-
-  // console.log(picture);
 
   return [onVideoRef, onCanvasRef, onCapture, picture];
 };

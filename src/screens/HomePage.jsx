@@ -1,13 +1,15 @@
 import React from "react";
 import { createUseStyles } from "react-jss";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useWebcamCapture } from "../useWebcamCapture";
 import paintHand from "../../src/Assets/paint-hand.png";
 import realisticHand from "../../src/Assets/realistic-hand.png";
 import slap from "../../src/Assets/slap.png";
 import comic from "../../src/Assets/comic.png";
+import SocialShare from "../components/SocialShare";
+import axios from "axios";
 
-const logos = [slap, realisticHand, paintHand, comic];
+const logos = new Array(slap, realisticHand, paintHand, comic);
 
 const useStyles = createUseStyles((theme) => ({
   Main: {
@@ -48,9 +50,10 @@ const stickers = logos.map((url, i) => {
   const img = document.createElement("img");
   img.src = url;
   const id = 1 + i++;
+  console.log(img, url, id);
   return { img, url, id };
 });
-
+console.log(stickers);
 function HomePage(props) {
   /*css classes from JSS hook  */
   const classes = useStyles(props);
@@ -61,8 +64,6 @@ function HomePage(props) {
   // gallery of taken pictures
   const [gallery, setGallery] = useState([]);
 
-  console.log(gallery.slice(1));
-
   // webcam behavior hook
   const [
     handleVideoRef, // callback function to set ref for invisible video element
@@ -70,6 +71,35 @@ function HomePage(props) {
     handleCapture, // callback function to trigger taking the picture
     picture, // latest captured picture data object
   ] = useWebcamCapture(sticker?.img, title);
+
+  console.log(picture);
+
+  function download(dataurl, filename) {
+    const link = document.createElement("a");
+    link.href = dataurl;
+    link.download = filename;
+    link.click();
+  }
+
+  function convertURIToImageData(URI) {
+    return new Promise(function (resolve, reject) {
+      if (URI == null) return reject();
+      var canvas = document.createElement("canvas"),
+        context = canvas.getContext("2d"),
+        image = new Image();
+      image.addEventListener(
+        "load",
+        function () {
+          canvas.width = image.width;
+          canvas.height = image.height;
+          context.drawImage(image, 0, 0, canvas.width, canvas.height);
+          resolve(context.getImageData(0, 0, canvas.width, canvas.height));
+        },
+        false
+      );
+      image.src = URI;
+    });
+  }
 
   return (
     <main>
@@ -109,6 +139,12 @@ function HomePage(props) {
         {picture && (
           <div className={classes.Picture}>
             <h4> latest picture</h4>
+
+            <SocialShare url={picture.dataUri} />
+            <button onClick={() => download(picture.dataUri, picture.title)}>
+              DOWNLOAD
+            </button>
+
             <img alt={"capture"} src={picture.dataUri} />
             <h3>{picture.title}</h3>
           </div>
@@ -118,6 +154,7 @@ function HomePage(props) {
             return (
               <div className={classes.Picture}>
                 <img src={pic.dataUri} />
+
                 <h3>{pic.title}</h3>
               </div>
             );
