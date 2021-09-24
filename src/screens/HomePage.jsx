@@ -53,12 +53,15 @@ const stickers = logos.map((url, i) => {
 
 function HomePage(props) {
   /*css classes from JSS hook  */
-
   const classes = useStyles(props);
   // currently active sticker
   const [sticker, setSticker] = useState();
   // title for the picture that will be captured
   const [title, setTitle] = useState("SLAPPE!");
+  // gallery of taken pictures
+  const [gallery, setGallery] = useState([]);
+
+  console.log(gallery.slice(1));
 
   // webcam behavior hook
   const [
@@ -67,8 +70,6 @@ function HomePage(props) {
     handleCapture, // callback function to trigger taking the picture
     picture, // latest captured picture data object
   ] = useWebcamCapture(sticker?.img, title);
-
-  console.log(picture);
 
   return (
     <main>
@@ -97,17 +98,30 @@ function HomePage(props) {
           ref={handleCanvasRef}
           width={2}
           height={2}
-          onClick={handleCapture}
+          onClick={() => {
+            handleCapture();
+            setGallery((prev) => [...prev, picture]);
+          }}
         />
       </section>
       <section className={classes.Gallery}>
         Step 4: Cherish this moment forever
         {picture && (
           <div className={classes.Picture}>
+            <h4> latest picture</h4>
             <img alt={"capture"} src={picture.dataUri} />
             <h3>{picture.title}</h3>
           </div>
         )}
+        {gallery &&
+          gallery.slice(1).map((pic) => {
+            return (
+              <div className={classes.Picture}>
+                <img src={pic.dataUri} />
+                <h3>{pic.title}</h3>
+              </div>
+            );
+          })}
       </section>
     </main>
   );
