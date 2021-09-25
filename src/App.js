@@ -3,6 +3,7 @@ import { createUseStyles } from "react-jss";
 //screens import
 import ReadMe from "./screens/ReadMe";
 import HomePage from "./screens/HomePage";
+import "./button.scss";
 import "./fonts.css";
 
 const useStyles = createUseStyles((theme) => ({
@@ -19,6 +20,7 @@ const useStyles = createUseStyles((theme) => ({
     maxWidth: "100%",
     minHeight: "600px",
     margin: "auto",
+    backgroundColor: theme.palette.primary,
     "& a": {
       color: theme.palette.text,
     },

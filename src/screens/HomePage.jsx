@@ -13,7 +13,7 @@ const logos = new Array(slap, realisticHand, paintHand, comic);
 
 const useStyles = createUseStyles((theme) => ({
   Container: {
-    backgroundColor: theme.palette.darkBackground,
+    backgroundColor: theme.palette.text,
     color: "white",
     "& main": {
       width: "80%",
@@ -102,25 +102,25 @@ function HomePage(props) {
     link.click();
   }
 
-  function convertURIToImageData(URI) {
-    return new Promise(function (resolve, reject) {
-      if (URI == null) return reject();
-      var canvas = document.createElement("canvas"),
-        context = canvas.getContext("2d"),
-        image = new Image();
-      image.addEventListener(
-        "load",
-        function () {
-          canvas.width = image.width;
-          canvas.height = image.height;
-          context.drawImage(image, 0, 0, canvas.width, canvas.height);
-          resolve(context.getImageData(0, 0, canvas.width, canvas.height));
-        },
-        false
-      );
-      image.src = URI;
-    });
-  }
+  // function convertURIToImageData(URI) {
+  //   return new Promise(function (resolve, reject) {
+  //     if (URI == null) return reject();
+  //     var canvas = document.createElement("canvas"),
+  //       context = canvas.getContext("2d"),
+  //       image = new Image();
+  //     image.addEventListener(
+  //       "load",
+  //       function () {
+  //         canvas.width = image.width;
+  //         canvas.height = image.height;
+  //         context.drawImage(image, 0, 0, canvas.width, canvas.height);
+  //         resolve(context.getImageData(0, 0, canvas.width, canvas.height));
+  //       },
+  //       false
+  //     );
+  //     image.src = URI;
+  //   });
+  // }
 
   return (
     <div className={classes.Container}>
@@ -138,7 +138,11 @@ function HomePage(props) {
             <h3> Then, select your sticker... </h3>
             {stickers.map((sticker) => {
               return (
-                <button key={sticker.id} onClick={() => setSticker(sticker)}>
+                <button
+                  className="raise"
+                  key={sticker.id}
+                  onClick={() => setSticker(sticker)}
+                >
                   <img alt={`sticker-${sticker}`} src={sticker.url} />
                 </button>
               );
