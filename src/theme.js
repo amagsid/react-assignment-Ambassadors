@@ -1,8 +1,9 @@
 export const theme = {
   palette: {
-    primary: "#2266dd",
-    secondary: "#96CAA8",
-    background: "#eee",
-    text: "#fff",
+    primary: "#DFE0E2", //light grey
+    // secondary: "#14192A",
+    darkBackground: "#303236", //dark grey
+    text: "#14192A", //blue grey
+    hoverColor: "#AC0C44", //Burgundy
   },
 };

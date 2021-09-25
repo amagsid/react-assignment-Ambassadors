@@ -3,7 +3,6 @@ import ReactDOM from "react-dom";
 import "normalize.css/normalize.css";
 import { ThemeProvider } from "react-jss";
 import { BrowserRouter } from "react-router-dom";
-
 import { theme } from "./theme";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
