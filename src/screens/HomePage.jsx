@@ -52,8 +52,17 @@ const useStyles = createUseStyles((theme) => ({
     },
   },
   Thumbnails: {
+    marginTop: "20px",
     display: "flex",
     flexDirection: "column",
+    backgroundColor: "#282f49",
+    border: "solid black",
+    borderColor: "white",
+    borderWidth: " 3px 3px 5px 5px",
+    borderRadius: "4% 95% 6% 95%/95% 4% 92% 5%",
+    padding: "20px",
+    // transform: "rotate(-2deg)",
+
     "& img": {
       height: "16rem",
     },
@@ -87,6 +96,15 @@ const useStyles = createUseStyles((theme) => ({
       width: "275px",
       height: "200px",
     },
+  },
+  PicTitle: {
+    // position: "absolute",
+    bottom: "10px",
+    margin: "0",
+  },
+  GalleryView: {
+    // position: "relative",
+    // height: "100px",
   },
 }));
 
@@ -123,8 +141,6 @@ function HomePage(props) {
     link.click();
   }
 
-  console.log(picture);
-
   // function convertURIToImageData(URI) {
   //   return new Promise(function (resolve, reject) {
   //     if (URI == null) return reject();
@@ -144,6 +160,8 @@ function HomePage(props) {
   //     image.src = URI;
   //   });
   // }
+
+  console.log(gallery);
 
   return (
     <>
@@ -187,47 +205,50 @@ function HomePage(props) {
               }}
             />
           </section>
-          <section className={classes.Thumbnails}>
-            {picture && (
-              <div className={classes.LatestPicture}>
-                <h3>Cherish this moment forever </h3>
-                {/* <h4> latest picture</h4> */}
+          {gallery.length > 0 && (
+            <section className={classes.Thumbnails}>
+              {picture && (
+                <div className={classes.LatestPicture}>
+                  <h3>Cherish this moment forever </h3>
+                  <h4> latest taken picture</h4>
 
-                {/* <SocialShare url={picture.dataUri} /> */}
-                <FaCloudDownloadAlt
-                  size={45}
-                  className={classes.Download}
-                  onClick={() => download(picture.dataUri, picture.title)}
-                />
+                  {/* <SocialShare url={picture.dataUri} /> */}
+                  <FaCloudDownloadAlt
+                    size={45}
+                    className={classes.Download}
+                    onClick={() => download(picture.dataUri, picture.title)}
+                  />
+                  <h3 className={classes.PicTitle}>{picture.title}</h3>
+                  <img
+                    alt={"capture"}
+                    src={picture.dataUri}
+                    className={classes.LatestImage}
+                  />
+                </div>
+              )}
 
-                <img
-                  alt={"capture"}
-                  src={picture.dataUri}
-                  className={classes.LatestImage}
-                />
-                <h3>{picture.title}</h3>
-              </div>
-            )}
-
-            <div className={classes.Gallery}>
-              {gallery &&
-                gallery.slice(1).map((pic) => {
-                  return (
-                    <>
-                      <div>
-                        <FaCloudDownloadAlt
-                          size={30}
-                          className={classes.Download}
-                          onClick={() => download(pic.dataUri, pic.title)}
-                        />
-                        <img src={pic.dataUri} />
-                      </div>
-                      <h3>{pic.title}</h3>
-                    </>
-                  );
-                })}
-            </div>
-          </section>
+              {gallery.length > 1 && (
+                <div className={classes.Gallery}>
+                  <h1> </h1>
+                  {gallery.slice(1).map((pic) => {
+                    return (
+                      <>
+                        <div className={classes.GalleryView}>
+                          <FaCloudDownloadAlt
+                            size={30}
+                            className={classes.Download}
+                            onClick={() => download(pic.dataUri, pic.title)}
+                          />
+                          <img src={pic.dataUri} />
+                          <h3 className={classes.PicTitle}>{pic.title}</h3>
+                        </div>
+                      </>
+                    );
+                  })}
+                </div>
+              )}
+            </section>
+          )}
         </main>
       </div>
     </>
