@@ -34,7 +34,7 @@ const useStyles = createUseStyles((theme) => ({
     right: "0",
     textAlign: "center",
     backgroundColor: "white",
-    color: "black",
+    color: theme.palette.text,
     justifyContent: "space-between",
     alignItems: "center",
     padding: "0 140px 0 140px",
@@ -59,12 +59,14 @@ const useStyles = createUseStyles((theme) => ({
       padding: "30px 16px 30px 16px",
       "&:hover": {
         backgroundColor: theme.palette.hoverColor,
+        fontWeight: "500",
       },
       "& a": {
         textDecoration: "none",
-        color: "black",
-        borderBottom: "4px solid #AC0C44",
-        textDecoration: "underline #AC0C44",
+        color: theme.palette.text,
+        "&:hover": {
+          color: "white",
+        },
       },
     },
   },

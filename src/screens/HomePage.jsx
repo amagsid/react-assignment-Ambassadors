@@ -98,13 +98,8 @@ const useStyles = createUseStyles((theme) => ({
     },
   },
   PicTitle: {
-    // position: "absolute",
     bottom: "10px",
     margin: "0",
-  },
-  GalleryView: {
-    // position: "relative",
-    // height: "100px",
   },
 }));
 
@@ -141,27 +136,7 @@ function HomePage(props) {
     link.click();
   }
 
-  // function convertURIToImageData(URI) {
-  //   return new Promise(function (resolve, reject) {
-  //     if (URI == null) return reject();
-  //     var canvas = document.createElement("canvas"),
-  //       context = canvas.getContext("2d"),
-  //       image = new Image();
-  //     image.addEventListener(
-  //       "load",
-  //       function () {
-  //         canvas.width = image.width;
-  //         canvas.height = image.height;
-  //         context.drawImage(image, 0, 0, canvas.width, canvas.height);
-  //         resolve(context.getImageData(0, 0, canvas.width, canvas.height));
-  //       },
-  //       false
-  //     );
-  //     image.src = URI;
-  //   });
-  // }
-
-  console.log(gallery);
+  // console.log(gallery);
 
   return (
     <>
@@ -210,12 +185,18 @@ function HomePage(props) {
               {picture && (
                 <div className={classes.LatestPicture}>
                   <h3>Cherish this moment forever </h3>
-                  <h4> latest taken picture</h4>
+                  <h4>
+                    You slapped yourself {``}
+                    {gallery.length == 1
+                      ? `${gallery.length} time`
+                      : `${gallery.length} times!`}
+                  </h4>
 
                   {/* <SocialShare url={picture.dataUri} /> */}
                   <FaCloudDownloadAlt
                     size={45}
                     className={classes.Download}
+                    style={{ right: "900px", paddingTop: "20px" }}
                     onClick={() => download(picture.dataUri, picture.title)}
                   />
                   <h3 className={classes.PicTitle}>{picture.title}</h3>
