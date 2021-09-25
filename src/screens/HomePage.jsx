@@ -7,7 +7,7 @@ import realisticHand from "../../src/Assets/realistic-hand.png";
 import slap from "../../src/Assets/slap.png";
 import comic from "../../src/Assets/comic.png";
 import SocialShare from "../components/SocialShare";
-import axios from "axios";
+import { FaCloudDownloadAlt } from "react-icons/fa";
 
 const logos = new Array(slap, realisticHand, paintHand, comic);
 
@@ -51,20 +51,41 @@ const useStyles = createUseStyles((theme) => ({
       height: "4rem",
     },
   },
-  Image: {
+  Thumbnails: {
+    display: "flex",
+    flexDirection: "column",
     "& img": {
       height: "16rem",
     },
   },
-  Picture: {
-    background: "black",
+  LatestPicture: {
     padding: 4,
-    position: "relative",
-    display: "inline-block",
+    "& img": {
+      width: "50%",
+      height: "50%",
+    },
     "& h3": {
       padding: 8,
       textAlign: "center",
       width: "100%",
+    },
+  },
+
+  Download: {
+    position: "absolute",
+    padding: "10px",
+    "&:hover": {
+      cursor: "pointer",
+    },
+  },
+  Gallery: {
+    height: "700px",
+    display: "flex",
+    flexDirection: "row",
+    flexWrap: "wrap",
+    "& img": {
+      width: "275px",
+      height: "200px",
     },
   },
 }));
@@ -102,6 +123,8 @@ function HomePage(props) {
     link.click();
   }
 
+  console.log(picture);
+
   // function convertURIToImageData(URI) {
   //   return new Promise(function (resolve, reject) {
   //     if (URI == null) return reject();
@@ -123,74 +146,91 @@ function HomePage(props) {
   // }
 
   return (
-    <div className={classes.Container}>
-      <main>
-        <div>
-          <section className={classes.Choices}>
-            <input
-              type="text"
-              value={title}
-              onChange={(ev) => setTitle(ev.target.value)}
-              placeholder="First, give it a name"
+    <>
+      <div className={classes.Container}>
+        <main>
+          <div>
+            <section className={classes.Choices}>
+              <input
+                type="text"
+                value={title}
+                onChange={(ev) => setTitle(ev.target.value)}
+                placeholder="First, give it a name"
+              />
+            </section>
+            <section className={classes.Stickers}>
+              <h3> Then, select your sticker... </h3>
+              {stickers.map((sticker) => {
+                return (
+                  <button
+                    className="raise"
+                    key={sticker.id}
+                    onClick={() => setSticker(sticker)}
+                  >
+                    <img alt={`sticker-${sticker}`} src={sticker.url} />
+                  </button>
+                );
+              })}
+            </section>
+          </div>
+          <section className={classes.CameraView}>
+            <h3> Go ahead, Slap yourself! </h3>
+
+            <video ref={handleVideoRef} />
+            <canvas
+              ref={handleCanvasRef}
+              width={2}
+              height={2}
+              onClick={() => {
+                handleCapture();
+                setGallery((prev) => [...prev, picture]);
+              }}
             />
           </section>
-          <section className={classes.Stickers}>
-            <h3> Then, select your sticker... </h3>
-            {stickers.map((sticker) => {
-              return (
-                <button
-                  className="raise"
-                  key={sticker.id}
-                  onClick={() => setSticker(sticker)}
-                >
-                  <img alt={`sticker-${sticker}`} src={sticker.url} />
-                </button>
-              );
-            })}
-          </section>
-        </div>
-        <section className={classes.CameraView}>
-          <h3> Go ahead, Slap your self! </h3>
+          <section className={classes.Thumbnails}>
+            {picture && (
+              <div className={classes.LatestPicture}>
+                <h3>Cherish this moment forever </h3>
+                {/* <h4> latest picture</h4> */}
 
-          <video ref={handleVideoRef} />
-          <canvas
-            ref={handleCanvasRef}
-            width={2}
-            height={2}
-            onClick={() => {
-              handleCapture();
-              setGallery((prev) => [...prev, picture]);
-            }}
-          />
-        </section>
-        <section className={classes.Image}>
-          Step 4: Cherish this moment forever
-          {picture && (
-            <div className={classes.Picture}>
-              <h4> latest picture</h4>
+                {/* <SocialShare url={picture.dataUri} /> */}
+                <FaCloudDownloadAlt
+                  size={45}
+                  className={classes.Download}
+                  onClick={() => download(picture.dataUri, picture.title)}
+                />
 
-              <SocialShare url={picture.dataUri} />
-              <button onClick={() => download(picture.dataUri, picture.title)}>
-                DOWNLOAD
-              </button>
+                <img
+                  alt={"capture"}
+                  src={picture.dataUri}
+                  className={classes.LatestImage}
+                />
+                <h3>{picture.title}</h3>
+              </div>
+            )}
 
-              <img alt={"capture"} src={picture.dataUri} />
-              <h3>{picture.title}</h3>
+            <div className={classes.Gallery}>
+              {gallery &&
+                gallery.slice(1).map((pic) => {
+                  return (
+                    <>
+                      <div>
+                        <FaCloudDownloadAlt
+                          size={30}
+                          className={classes.Download}
+                          onClick={() => download(pic.dataUri, pic.title)}
+                        />
+                        <img src={pic.dataUri} />
+                      </div>
+                      <h3>{pic.title}</h3>
+                    </>
+                  );
+                })}
             </div>
-          )}
-          {gallery &&
-            gallery.slice(1).map((pic) => {
-              return (
-                <div className={classes.Picture}>
-                  <img src={pic.dataUri} />
-
-                  <h3>{pic.title}</h3>
-                </div>
-              );
-            })}
-        </section>
-      </main>
-    </div>
+          </section>
+        </main>
+      </div>
+    </>
   );
 }
 
