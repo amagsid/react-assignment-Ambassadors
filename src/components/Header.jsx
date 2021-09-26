@@ -24,7 +24,10 @@ const useStyles = createUseStyles((theme) => ({
       cursor: "pointer",
       fontSize: "2.5rem",
       "@media screen and (max-width: 600px)": {
-        fontSize: "1.25rem",
+        padding: "10px 10px 10px 10px",
+      },
+      "@media screen and (max-width: 1000px)": {
+        fontSize: "2rem",
       },
     },
     "&  ul": {
