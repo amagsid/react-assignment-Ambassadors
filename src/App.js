@@ -1,10 +1,11 @@
-import { Link, Switch, Route, Redirect } from "react-router-dom";
+import { Switch, Route, Redirect } from "react-router-dom";
 import { createUseStyles } from "react-jss";
-//screens import
+//screens and component import
 import ReadMe from "./screens/ReadMe";
 import HomePage from "./screens/HomePage";
-import "./button.scss";
-import "./fonts.css";
+import Header from "./components/Header";
+import "./styles/button.scss";
+import "./styles/fonts.css";
 
 const useStyles = createUseStyles((theme) => ({
   "@global body": {
@@ -23,51 +24,6 @@ const useStyles = createUseStyles((theme) => ({
     backgroundColor: theme.palette.primary,
     "& a": {
       color: theme.palette.text,
-    },
-  },
-
-  Header: {
-    display: "flex",
-    position: "fixed",
-    top: "0",
-    left: "0",
-    right: "0",
-    textAlign: "center",
-    backgroundColor: "white",
-    color: theme.palette.text,
-    justifyContent: "space-between",
-    alignItems: "center",
-    padding: "0 140px 0 140px",
-    height: "80px",
-    boxShadow: "0 0 10px 0px black",
-    "&  h1": {
-      fontFamily: "Audiowide",
-      cursor: "pointer",
-      fontSize: "2.5rem",
-    },
-    "&  ul": {
-      listStyleType: "none",
-      margin: "0",
-      padding: "0",
-      right: "0",
-    },
-    "&  li": {
-      display: "inline",
-      padding: "14px 16px",
-      display: "inline",
-      height: "80px",
-      padding: "30px 16px 30px 16px",
-      "&:hover": {
-        backgroundColor: theme.palette.hoverColor,
-        fontWeight: "500",
-      },
-      "& a": {
-        textDecoration: "none",
-        color: theme.palette.text,
-        "&:hover": {
-          color: "white",
-        },
-      },
     },
   },
   Container: {
@@ -93,38 +49,26 @@ const useStyles = createUseStyles((theme) => ({
   },
 }));
 
-function App(props) {
+const App = (props) => {
   // css classes from JSS hook
   const classes = useStyles(props);
 
   return (
     <div className={classes.App}>
-      <header className={classes.Header} id="myHeader">
-        <h1>SlapSticker</h1>
-        <nav>
-          <ul>
-            <li>
-              <Link to="/">Home</Link>
-            </li>
-            <li>
-              <Link to="/readme">Readme</Link>
-            </li>
-          </ul>
-        </nav>
-      </header>
+      <Header />
 
       <div className={classes.Container}>
         <div className={classes.Banner}>
           <p>
             Have you ever said something so dumb, you just wanted to slap
-            yourself?{" "}
+            yourself?
             <span>
-              {" "}
               Well, <br /> now you can!{" "}
             </span>
           </p>
 
           <img
+            alt="slap-gif"
             src="https://media4.giphy.com/media/Okk9cb1dvtMxq/giphy.gif?cid=790b76117add93ca63e9fdc8948df94a2fff99c10d87109c&rid=giphy.gif&ct=g"
             width="1000"
             height="500"
@@ -133,11 +77,11 @@ function App(props) {
       </div>
 
       <Switch>
-        /** * Main app route */
+        {/** * Main app route */}
         <Route path="/" exact>
           <HomePage />
         </Route>
-        /** * Readme route */
+        {/** * Readme route */}
         <Route path="/readme">
           <ReadMe />
         </Route>
@@ -145,6 +89,6 @@ function App(props) {
       </Switch>
     </div>
   );
-}
+};
 
 export default App;

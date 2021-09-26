@@ -1,15 +1,15 @@
 import React from "react";
 import { createUseStyles } from "react-jss";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useWebcamCapture } from "../useWebcamCapture";
 import paintHand from "../../src/Assets/paint-hand.png";
 import realisticHand from "../../src/Assets/realistic-hand.png";
 import slap from "../../src/Assets/slap.png";
 import comic from "../../src/Assets/comic.png";
-import SocialShare from "../components/SocialShare";
 import { FaCloudDownloadAlt } from "react-icons/fa";
+// import SocialShare from "../components/SocialShare";
 
-const logos = new Array(slap, realisticHand, paintHand, comic);
+const logos = [slap, realisticHand, paintHand, comic];
 
 const useStyles = createUseStyles((theme) => ({
   Container: {
@@ -19,8 +19,6 @@ const useStyles = createUseStyles((theme) => ({
       width: "80%",
       margin: "0 auto",
       paddingTop: "30px",
-      // backgroundColor: "#696E77",
-      // display: "flex",
       textAlign: "center",
     },
   },
@@ -52,6 +50,7 @@ const useStyles = createUseStyles((theme) => ({
     },
   },
   Thumbnails: {
+    width: "100%",
     marginTop: "20px",
     display: "flex",
     flexDirection: "column",
@@ -60,35 +59,38 @@ const useStyles = createUseStyles((theme) => ({
     borderColor: "white",
     borderWidth: " 3px 3px 5px 5px",
     borderRadius: "4% 95% 6% 95%/95% 4% 92% 5%",
-    padding: "20px",
-    // transform: "rotate(-2deg)",
+    padding: "10px 20px 50px 20px",
 
     "& img": {
       height: "16rem",
+      border: "solid .5px white",
     },
   },
   LatestPicture: {
+    margin: "0 auto",
+    position: "relative",
     padding: 4,
-    "& img": {
-      width: "50%",
-      height: "50%",
-    },
+
     "& h3": {
       padding: 8,
       textAlign: "center",
-      width: "100%",
     },
   },
 
   Download: {
     position: "absolute",
     padding: "10px",
+    overflowY: "scroll",
+    maxHeight: "100%",
     "&:hover": {
       cursor: "pointer",
     },
   },
   Gallery: {
-    height: "700px",
+    maxHeight: "700px",
+    width: "100%",
+    overflow: "scroll",
+    // margin: "5px 30px 30px 15px ",
     display: "flex",
     flexDirection: "row",
     flexWrap: "wrap",
@@ -97,9 +99,14 @@ const useStyles = createUseStyles((theme) => ({
       height: "200px",
     },
   },
+  GalleryView: {
+    position: "relative",
+  },
   PicTitle: {
-    bottom: "10px",
-    margin: "0",
+    position: "absolute",
+    bottom: "0",
+    backgroundColor: "black",
+    left: "10px",
   },
 }));
 
@@ -111,7 +118,7 @@ const stickers = logos.map((url, i) => {
   return { img, url, id };
 });
 
-function HomePage(props) {
+const HomePage = (props) => {
   /*css classes from JSS hook  */
   const classes = useStyles(props);
   // currently active sticker
@@ -129,14 +136,15 @@ function HomePage(props) {
     picture, // latest captured picture data object
   ] = useWebcamCapture(sticker?.img, title);
 
-  function download(dataurl, filename) {
+  //download image file
+  const download = (dataurl, filename) => {
     const link = document.createElement("a");
     link.href = dataurl;
     link.download = filename;
     link.click();
-  }
+  };
 
-  // console.log(gallery);
+  console.log(gallery);
 
   return (
     <>
@@ -182,48 +190,46 @@ function HomePage(props) {
           </section>
           {gallery.length > 0 && (
             <section className={classes.Thumbnails}>
+              <h3 style={{ marginBottom: "0" }}>
+                Cherish this moment forever..{" "}
+              </h3>
+              <h4 style={{ marginTop: "0", fontSize: "2rem" }}>
+                You slapped yourself {``}
+                {gallery.length === 1
+                  ? `${gallery.length} time`
+                  : `${gallery.length} times!`}
+              </h4>
               {picture && (
                 <div className={classes.LatestPicture}>
-                  <h3>Cherish this moment forever </h3>
-                  <h4>
-                    You slapped yourself {``}
-                    {gallery.length == 1
-                      ? `${gallery.length} time`
-                      : `${gallery.length} times!`}
-                  </h4>
-
                   {/* <SocialShare url={picture.dataUri} /> */}
                   <FaCloudDownloadAlt
                     size={45}
                     className={classes.Download}
-                    style={{ right: "900px", paddingTop: "20px" }}
                     onClick={() => download(picture.dataUri, picture.title)}
                   />
                   <h3 className={classes.PicTitle}>{picture.title}</h3>
-                  <img
-                    alt={"capture"}
-                    src={picture.dataUri}
-                    className={classes.LatestImage}
-                  />
+                  <img alt={"capture"} src={picture.dataUri} />
                 </div>
               )}
 
               {gallery.length > 1 && (
                 <div className={classes.Gallery}>
-                  <h1> </h1>
-                  {gallery.slice(1).map((pic) => {
+                  {gallery.slice(1).map((pic, i) => {
                     return (
-                      <>
-                        <div className={classes.GalleryView}>
-                          <FaCloudDownloadAlt
-                            size={30}
-                            className={classes.Download}
-                            onClick={() => download(pic.dataUri, pic.title)}
-                          />
-                          <img src={pic.dataUri} />
-                          <h3 className={classes.PicTitle}>{pic.title}</h3>
-                        </div>
-                      </>
+                      <div className={classes.GalleryView} key={i}>
+                        <FaCloudDownloadAlt
+                          size={30}
+                          className={classes.Download}
+                          onClick={() => download(pic.dataUri, pic.title)}
+                        />
+                        <img alt="" src={pic.dataUri} />
+                        <h3
+                          style={{ padding: "10px" }}
+                          className={classes.PicTitle}
+                        >
+                          {pic.title}
+                        </h3>
+                      </div>
                     );
                   })}
                 </div>
@@ -234,6 +240,6 @@ function HomePage(props) {
       </div>
     </>
   );
-}
+};
 
 export default HomePage;
