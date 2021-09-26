@@ -2,14 +2,16 @@ import React from "react";
 import { createUseStyles } from "react-jss";
 import { useState } from "react";
 import { useWebcamCapture } from "../useWebcamCapture";
+//icons import
 import paintHand from "../../src/assets/paint-hand.png";
 import realisticHand from "../../src/assets/realistic-hand.png";
 import slap from "../../src/assets/slap.png";
 import comic from "../../src/assets/comic.png";
+import boxingGloves from "../../src/assets/boxing-gloves.png";
 import { FaCloudDownloadAlt } from "react-icons/fa";
 // import SocialShare from "../components/SocialShare";
 
-const logos = [slap, realisticHand, paintHand, comic];
+const logos = [slap, realisticHand, paintHand, comic, boxingGloves];
 
 const useStyles = createUseStyles((theme) => ({
   Container: {
@@ -89,7 +91,6 @@ const useStyles = createUseStyles((theme) => ({
     maxHeight: "700px",
     width: "100%",
     overflow: "scroll",
-    // margin: "5px 30px 30px 15px ",
     display: "flex",
     flexDirection: "row",
     flexWrap: "wrap",
@@ -107,16 +108,20 @@ const useStyles = createUseStyles((theme) => ({
     borderRadius: "10px 10px 10px 10px ",
     right: "10px",
     textShadow: "2px 2px 2px #AC0C44",
-    // textShadow: "-2px -2px 5px #AC0C44",
   },
 }));
 
-const stickers = logos.map((url, i) => {
+//looping over logos to create an array of objects with details for each
+const stickers = logos.map((logo, i) => {
   const img = document.createElement("img");
-  img.src = url;
-  const id = 1 + i++;
+  img.src = logo;
 
-  return { img, url, id };
+  return {
+    logo: logo,
+    id: i + 1,
+    name: logo.slice(14, -4),
+    img,
+  };
 });
 
 const HomePage = (props) => {
@@ -160,6 +165,7 @@ const HomePage = (props) => {
             </section>
             <section className={classes.Stickers}>
               <h3> Then, select your sticker... </h3>
+
               {stickers.map((sticker) => {
                 return (
                   <button
@@ -167,7 +173,7 @@ const HomePage = (props) => {
                     key={sticker.id}
                     onClick={() => setSticker(sticker)}
                   >
-                    <img alt={`sticker-${sticker}`} src={sticker.url} />
+                    <img alt={sticker.name} src={sticker.logo} />
                   </button>
                 );
               })}
@@ -175,7 +181,6 @@ const HomePage = (props) => {
           </div>
           <section className={classes.CameraView}>
             <h3> Go ahead, Slap yourself! </h3>
-
             <video ref={handleVideoRef} />
             <canvas
               ref={handleCanvasRef}

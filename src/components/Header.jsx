@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { createUseStyles } from "react-jss";
-import HeaderIcon from "../Assets/slap-header-icon.png";
+import HeaderIcon from "../assets/slap-header-icon.png";
 
 const useStyles = createUseStyles((theme) => ({
   Header: {
@@ -23,6 +23,9 @@ const useStyles = createUseStyles((theme) => ({
       fontFamily: "Audiowide",
       cursor: "pointer",
       fontSize: "2.5rem",
+      "@media screen and (max-width: 600px)": {
+        fontSize: "1.25rem",
+      },
     },
     "&  ul": {
       listStyleType: "none",
@@ -53,7 +56,7 @@ const useStyles = createUseStyles((theme) => ({
   },
 }));
 
-function Header(props) {
+const Header = (props) => {
   // css classes from JSS hook
   const classes = useStyles(props);
   return (
@@ -79,6 +82,6 @@ function Header(props) {
       </nav>
     </header>
   );
-}
+};
 
 export default Header;

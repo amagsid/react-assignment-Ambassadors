@@ -1,6 +1,6 @@
 import React from "react";
 
-function ReadMe() {
+const ReadMe = () => {
   return (
     <main style={{ width: "80%", padding: "50px 0px 10px 50px" }}>
       <h2>Devtest Readme</h2>
@@ -65,6 +65,6 @@ function ReadMe() {
       </section>
     </main>
   );
-}
+};
 
 export default ReadMe;

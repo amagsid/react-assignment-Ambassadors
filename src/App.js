@@ -33,15 +33,29 @@ const useStyles = createUseStyles((theme) => ({
   },
 
   Banner: {
-    // backgroundColor: "pink",
     display: "flex",
     flexDirection: "row",
+    "@media screen and (max-width: 600px)": {
+      flexDirection: "column",
+    },
     "& p": {
       fontSize: "3.25rem",
       textAlign: "left",
       margin: "0",
       fontWeight: "300",
       lineHeight: "1.3",
+      "@media screen and (max-width: 600px)": {
+        fontSize: "2rem",
+      },
+      "@media screen and (max-width: 1280px)": {
+        fontSize: "2.25rem",
+      },
+    },
+    "& img": {
+      "@media screen and (max-width: 600px)": {
+        width: "400px",
+        height: "400px",
+      },
     },
     "& span": {
       fontWeight: "700",
@@ -59,7 +73,7 @@ const App = (props) => {
 
       <div className={classes.Container}>
         <div className={classes.Banner}>
-          <p>
+          <p className={classes.BannerTitle}>
             Have you ever said something so dumb, you just wanted to slap
             yourself?
             <span>
