@@ -2,7 +2,7 @@ import React from "react";
 
 function ReadMe() {
   return (
-    <main>
+    <main style={{ width: "80%", padding: "50px 0px 10px 50px" }}>
       <h2>Devtest Readme</h2>
       <p>
         Hello candidate, Welcome to our little dev test. The goal of this

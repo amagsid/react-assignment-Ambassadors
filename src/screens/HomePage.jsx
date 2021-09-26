@@ -76,7 +76,6 @@ const useStyles = createUseStyles((theme) => ({
       textAlign: "center",
     },
   },
-
   Download: {
     position: "absolute",
     padding: "10px",
@@ -105,8 +104,10 @@ const useStyles = createUseStyles((theme) => ({
   PicTitle: {
     position: "absolute",
     bottom: "0",
-    backgroundColor: "black",
-    left: "10px",
+    borderRadius: "10px 10px 10px 10px ",
+    right: "10px",
+    textShadow: "2px 2px 2px #AC0C44",
+    // textShadow: "-2px -2px 5px #AC0C44",
   },
 }));
 
@@ -143,8 +144,6 @@ const HomePage = (props) => {
     link.download = filename;
     link.click();
   };
-
-  console.log(gallery);
 
   return (
     <>
@@ -207,31 +206,37 @@ const HomePage = (props) => {
                     className={classes.Download}
                     onClick={() => download(picture.dataUri, picture.title)}
                   />
-                  <h3 className={classes.PicTitle}>{picture.title}</h3>
+                  {title !== "" && (
+                    <h3 className={classes.PicTitle}>{picture.title}</h3>
+                  )}
+
                   <img alt={"capture"} src={picture.dataUri} />
                 </div>
               )}
 
               {gallery.length > 1 && (
                 <div className={classes.Gallery}>
-                  {gallery.slice(1).map((pic, i) => {
-                    return (
-                      <div className={classes.GalleryView} key={i}>
-                        <FaCloudDownloadAlt
-                          size={30}
-                          className={classes.Download}
-                          onClick={() => download(pic.dataUri, pic.title)}
-                        />
-                        <img alt="" src={pic.dataUri} />
-                        <h3
-                          style={{ padding: "10px" }}
-                          className={classes.PicTitle}
-                        >
-                          {pic.title}
-                        </h3>
-                      </div>
-                    );
-                  })}
+                  {gallery
+                    .slice(1)
+                    .reverse()
+                    .map((pic, i) => {
+                      return (
+                        <div className={classes.GalleryView} key={i}>
+                          <FaCloudDownloadAlt
+                            size={30}
+                            className={classes.Download}
+                            onClick={() => download(pic.dataUri, pic.title)}
+                          />
+                          <img alt="galler-pic" src={pic.dataUri} />
+                          <h3
+                            style={{ padding: "10px" }}
+                            className={classes.PicTitle}
+                          >
+                            {pic.title}
+                          </h3>
+                        </div>
+                      );
+                    })}
                 </div>
               )}
             </section>

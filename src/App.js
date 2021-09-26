@@ -63,7 +63,7 @@ const App = (props) => {
             Have you ever said something so dumb, you just wanted to slap
             yourself?
             <span>
-              Well, <br /> now you can!{" "}
+              Well, <br /> now you can!
             </span>
           </p>
 
