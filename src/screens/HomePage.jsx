@@ -2,10 +2,10 @@ import React from "react";
 import { createUseStyles } from "react-jss";
 import { useState } from "react";
 import { useWebcamCapture } from "../useWebcamCapture";
-import paintHand from "../../src/Assets/paint-hand.png";
-import realisticHand from "../../src/Assets/realistic-hand.png";
-import slap from "../../src/Assets/slap.png";
-import comic from "../../src/Assets/comic.png";
+import paintHand from "../../src/assets/paint-hand.png";
+import realisticHand from "../../src/assets/realistic-hand.png";
+import slap from "../../src/assets/slap.png";
+import comic from "../../src/assets/comic.png";
 import { FaCloudDownloadAlt } from "react-icons/fa";
 // import SocialShare from "../components/SocialShare";
 
